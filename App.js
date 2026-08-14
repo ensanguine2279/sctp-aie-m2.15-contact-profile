@@ -3,6 +3,7 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
+  View,
   Platform,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -50,6 +51,9 @@ export default function App() {
               location="Singapore"
             />
 
+            {/* Divider Line */}
+            <View style={styles.divider} />
+
             {/* Notes Section */}
             <NotesSection
               notes={notes}
@@ -70,5 +74,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: 20,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#dee2e6",
+    marginVertical: 16,
   },
 });
