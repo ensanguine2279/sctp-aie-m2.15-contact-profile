@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 import { useState } from "react";
 
 export default function NotesSection({ notes, setNotes, maxNoteLength }) {
@@ -23,6 +23,15 @@ export default function NotesSection({ notes, setNotes, maxNoteLength }) {
       <Text style={styles.counterText}>
         {notes.length} / {maxNoteLength} characters
       </Text>
+      {notes.length > 0 && (
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Clear Notes"
+            onPress={() => setNotes("")}
+            color="#dc3545"
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -63,5 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#6c757d",
     marginTop: 6,
+  },
+  buttonContainer: {
+    marginTop: 12,
   },
 });
