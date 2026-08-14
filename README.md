@@ -11,6 +11,7 @@ A single-screen app that displays:
 - A notes section with a labelled `TextInput` where the user can type a personal note
 - A character counter below the notes field showing how many characters have been entered
 
+<br/>
 <details>
 <summary>Details...</summary>
 
