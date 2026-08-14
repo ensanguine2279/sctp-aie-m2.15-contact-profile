@@ -1,11 +1,14 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
+import { useState } from "react";
 
 export default function NotesSection({ notes, setNotes, maxNoteLength }) {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View style={styles.notesContainer}>
       <Text style={styles.notesLabel}>Notes</Text>
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, isFocused && styles.focusedInput]}
         placeholder="Type a personal note about this contact..."
         placeholderTextColor="#888"
         multiline
@@ -14,6 +17,8 @@ export default function NotesSection({ notes, setNotes, maxNoteLength }) {
         onChangeText={setNotes}
         maxLength={maxNoteLength}
         autoCorrect={false}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
       <Text style={styles.counterText}>
         {notes.length} / {maxNoteLength} characters
@@ -48,6 +53,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     backgroundColor: "#fff",
     color: "#212529",
+  },
+  focusedInput: {
+    borderColor: "#007bff",
+    borderWidth: 2,
   },
   counterText: {
     textAlign: "right",
