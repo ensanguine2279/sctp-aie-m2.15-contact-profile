@@ -1,20 +1,50 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
 
 export default function DetailsSection({ phone, email, location }) {
+  const handleRowPress = (label, value) => {
+    let message = "";
+    if (label === "Phone") {
+      message = `Call ${value}?`;
+    } else if (label === "Email") {
+      message = `Send email to ${value}?`;
+    } else {
+      message = `View location: ${value}?`;
+    }
+
+    Alert.alert(label, message, [
+      { text: "Cancel", style: "cancel" },
+      { text: "OK", onPress: () => console.log(`${label} action confirmed`) },
+    ]);
+  };
+
   return (
     <View style={styles.detailsContainer}>
-      <View style={styles.row}>
+      <Pressable
+        style={({ pressed }) => [styles.row, pressed && styles.pressedRow]}
+        onPress={() => handleRowPress("Phone", phone)}
+      >
         <Text style={styles.label}>Phone</Text>
         <Text style={styles.value}>{phone}</Text>
-      </View>
-      <View style={styles.row}>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [styles.row, pressed && styles.pressedRow]}
+        onPress={() => handleRowPress("Email", email)}
+      >
         <Text style={styles.label}>Email</Text>
         <Text style={styles.value}>{email}</Text>
-      </View>
-      <View style={[styles.row, styles.lastRow]}>
+      </Pressable>
+      <Pressable
+        style={({ pressed }) => [
+          styles.row,
+          styles.lastRow,
+          pressed && styles.pressedRow,
+        ]}
+        onPress={() => handleRowPress("Location", location)}
+      >
         <Text style={styles.label}>Location</Text>
         <Text style={styles.value}>{location}</Text>
-      </View>
+      </Pressable>
     </View>
   );
 }
@@ -41,6 +71,9 @@ const styles = StyleSheet.create({
   },
   lastRow: {
     borderBottomWidth: 0,
+  },
+  pressedRow: {
+    backgroundColor: "#f1f3f5", // Light grey highlight when tapped
   },
   label: {
     fontSize: 15,
