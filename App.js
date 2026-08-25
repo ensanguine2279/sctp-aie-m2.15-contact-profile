@@ -5,6 +5,8 @@ import {
   KeyboardAvoidingView,
   View,
   Platform,
+  TouchableOpacity,
+  Text,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -17,6 +19,9 @@ const MAX_NOTE_LENGTH = 200;
 
 export default function App() {
   const [notes, setNotes] = useState("");
+
+  // State to track the active tab: true for "Details", false for "Notes"
+  const [isDetailsTab, setIsDetailsTab] = useState(true);
 
   return (
     <SafeAreaProvider>
@@ -44,22 +49,56 @@ export default function App() {
               avatarUrl={AVATAR_URL}
             />
 
-            {/* Details Section */}
-            <DetailsSection
-              phone="+65 9123 4567"
-              email="alex@example.com"
-              location="Singapore"
-            />
+            {/* Tab Navigation Row */}
+            <View style={styles.tabContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.tabButton,
+                  isDetailsTab && styles.activeTabButton,
+                ]}
+                onPress={() => setIsDetailsTab(true)}
+              >
+                <Text
+                  style={[styles.tabText, isDetailsTab && styles.activeTabText]}
+                >
+                  Details
+                </Text>
+              </TouchableOpacity>
 
-            {/* Divider Line */}
-            <View style={styles.divider} />
+              <TouchableOpacity
+                style={[
+                  styles.tabButton,
+                  !isDetailsTab && styles.activeTabButton,
+                ]}
+                onPress={() => setIsDetailsTab(false)}
+              >
+                <Text
+                  style={[
+                    styles.tabText,
+                    !isDetailsTab && styles.activeTabText,
+                  ]}
+                >
+                  Notes
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-            {/* Notes Section */}
-            <NotesSection
-              notes={notes}
-              setNotes={setNotes}
-              maxNoteLength={MAX_NOTE_LENGTH}
-            />
+            {/* Conditional Rendering based on active tab state */}
+            {isDetailsTab ? (
+              // Details Section
+              <DetailsSection
+                phone="+65 9123 4567"
+                email="alex@example.com"
+                location="Singapore"
+              />
+            ) : (
+              // Notes Section
+              <NotesSection
+                notes={notes}
+                setNotes={setNotes}
+                maxNoteLength={MAX_NOTE_LENGTH}
+              />
+            )}
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -79,5 +118,34 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#dee2e6",
     marginVertical: 16,
+  },
+  tabContainer: {
+    flexDirection: "row",
+    backgroundColor: "#e9ecef",
+    borderRadius: 8,
+    padding: 4,
+    marginBottom: 20,
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 6,
+  },
+  activeTabButton: {
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 2,
+  },
+  tabText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#6c757d",
+  },
+  activeTabText: {
+    color: "#007bff",
   },
 });
